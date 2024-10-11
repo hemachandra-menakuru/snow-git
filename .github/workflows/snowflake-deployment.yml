@@ -44,7 +44,7 @@ jobs:
             echo "Error: One or more Snowflake credentials are empty"
             exit 1
           fi
-          snowsql << EOF
+          snowsql -o log_level=DEBUG << EOF
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           SHOW USERS;
