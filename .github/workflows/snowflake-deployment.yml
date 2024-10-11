@@ -1,0 +1,27 @@
+name: Snowflake Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Configure Snowflake
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_NAME }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USERNAME }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD
+          USE WAREHOUSE HM_X_SMALL;
+          USE ROLE SYSADMIN;
+          SHOW USERS;
+          select * from SNOWGIT.SILVER.CUSTOMERS;
