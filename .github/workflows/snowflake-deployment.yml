@@ -44,7 +44,7 @@ jobs:
             echo "Error: One or more Snowflake credentials are empty"
             exit 1
           fi
-          snowsql -a "$SNOWFLAKE_ACCOUNT" -u "$SNOWFLAKE_USER" -p "$SNOWFLAKE_PASSWORD" << EOF
+          snowsql -a "$SNOWFLAKE_ACCOUNT" -u "$SNOWFLAKE_USER" -p '$SNOWFLAKE_PASSWORD' << EOF
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           SHOW USERS;
