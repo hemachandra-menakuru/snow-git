@@ -36,9 +36,9 @@ jobs:
 
       - name: Run SnowSQL
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ACCOUNT: "SIUVYGH.SF_AZURE.australia-east.azure"
+          SNOWFLAKE_USER: "SF_DEPLOYMENT"
+          SNOWFLAKE_PASSWORD: "qwerty@12345"
         run: |
           if [ -z "$SNOWFLAKE_ACCOUNT" ] || [ -z "$SNOWFLAKE_USER" ] || [ -z "$SNOWFLAKE_PASSWORD" ]; then
             echo "Error: One or more Snowflake credentials are empty"
