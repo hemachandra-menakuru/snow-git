@@ -14,18 +14,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Install SnowSQL
-        run: |
-          curl -O https://s3.amazonaws.com/snowflake/software/snowsql/1.2/snowsql_1.2.16_linux_x86_64.sh
-          chmod +x snowsql_1.2.16_linux_x86_64.sh
-          ./snowsql_1.2.16_linux_x86_64.sh
-          echo "export PATH=$PATH:$HOME/snowsql" >> $GITHUB_ENV
+
+      - name: Install Snowflake CLI
+        uses: Snowflake-Labs/snowflake-cli-action@v1
+        with:
+          cli-version: "latest"
+          default-config-file-path: "config.toml"
   
       - name: Configure Snowflake
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_NAME }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USERNAME }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          
+      - name: Run SnowSQL
         run: |
           snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD
           USE WAREHOUSE HM_X_SMALL;
