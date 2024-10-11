@@ -36,15 +36,15 @@ jobs:
 
       - name: Run SnowSQL
         env:
-          SNOWFLAKE_ACCOUNT: "SIUVYGH.SF_AZURE.australia-east.azure"
-          SNOWFLAKE_USER: "SF_DEPLOYMENT"
-          SNOWFLAKE_PASSWORD: "'JlGx#8dLpM@2024'"
+          SNOWSQL_ACCOUNT: "SIUVYGH.SF_AZURE.australia-east.azure"
+          SNOWSQL_USER: "SF_DEPLOYMENT"
+          SNOWSQL_PWD: "'JlGx#8dLpM@2024'"
         run: |
-          if [ -z "$SNOWFLAKE_ACCOUNT" ] || [ -z "$SNOWFLAKE_USER" ] || [ -z "$SNOWFLAKE_PASSWORD" ]; then
+          if [ -z "$SNOWSQL_ACCOUNT" ] || [ -z "$SNOWSQL_USER" ] || [ -z "$SNOWSQL_PWD" ]; then
             echo "Error: One or more Snowflake credentials are empty"
             exit 1
           fi
-          snowsql -a "$SNOWFLAKE_ACCOUNT" -u "$SNOWFLAKE_USER" -p "$SNOWFLAKE_PASSWORD" << EOF
+          snowsql << EOF
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           SHOW USERS;
