@@ -23,14 +23,16 @@ jobs:
       - name: Install SnowSQL
         run: |
           curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
-          SNOWSQL_DEST=$HOME/snowflake SNOWSQL_LOGIN_SHELL=$HOME/.profile bash snowsql-1.2.9-linux_x86_64.bash
-          echo "$HOME/snowflake/bin" >> $GITHUB_PATH
+          mkdir -p $HOME/snowflake
+          SNOWSQL_DEST=$HOME/snowflake SNOWSQL_LOGIN_SHELL=$HOME/.bash_profile bash snowsql-1.2.9-linux_x86_64.bash
+          echo "$HOME/snowflake" >> $GITHUB_PATH
 
       - name: Verify SnowSQL Installation
         run: |
-          echo $PATH
-          ls -l $HOME/snowflake/bin
-          $HOME/snowflake/bin/snowsql --version
+          echo "PATH: $PATH"
+          ls -R $HOME/snowflake
+          which snowsql
+          snowsql --version
 
       - name: Run SnowSQL
         env:
@@ -38,7 +40,7 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USERNAME }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
         run: |
-          $HOME/snowflake/bin/snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD << EOF
+          snowsql -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -p $SNOWFLAKE_PASSWORD << EOF
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           SHOW USERS;
