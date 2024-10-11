@@ -14,6 +14,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Install SnowSQL
+        run: |
+          curl -O https://s3.amazonaws.com/snowflake/software/snowsql/1.2/snowsql_1.2.16_linux_x86_64.sh
+          chmod +x snowsql_1.2.16_linux_x86_64.sh
+          ./snowsql_1.2.16_linux_x86_64.sh
+          echo "export PATH=$PATH:$HOME/snowsql" >> $GITHUB_ENV
+  
       - name: Configure Snowflake
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT_NAME }}
