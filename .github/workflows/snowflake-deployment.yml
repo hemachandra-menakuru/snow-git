@@ -36,7 +36,7 @@ jobs:
 
       - name: Run SnowSQL
         env:
-          SNOWSQL_ACCOUNT: "SIUVYGH.australia-east.azure"
+          SNOWSQL_ACCOUNT: "qg02302.australia-east.azure"
           SNOWSQL_USER: "SF_DEPLOYMENT"
           SNOWSQL_PWD: "JlGx#8dLpM@2024"
         run: |
