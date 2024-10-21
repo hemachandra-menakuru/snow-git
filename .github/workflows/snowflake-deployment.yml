@@ -45,7 +45,6 @@ jobs:
             exit 1
           fi
           snowsql -o log_level=DEBUG << EOF
-          USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           USE DATABASE SNOWGIT;
           USE SCHEMA SILVER;
