@@ -48,6 +48,6 @@ jobs:
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
           USE DATABASE SNOWGIT;
-          USE SCHEMA PUBLIC;
+          USE SCHEMA SILVER;
           EXECUTE IMMEDIATE FROM @snowgit/branches/feature/test2/release_scripts/release_v1.0.sql;
           EOF
