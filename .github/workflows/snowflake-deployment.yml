@@ -47,6 +47,5 @@ jobs:
           snowsql -o log_level=DEBUG << EOF
           USE WAREHOUSE HM_X_SMALL;
           USE ROLE SYSADMIN;
-          SHOW USERS;
-          SELECT * FROM SNOWGIT.SILVER.CUSTOMERS;
+          EXECUTE IMMEDIATE FROM @snowgit/branches/feature/test2/release_scripts/release_v1.0.sql;
           EOF
