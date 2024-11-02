@@ -1,0 +1,53 @@
+name: Snowflake Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/*'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install SnowSQL
+        run: |
+          curl -O https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.2/linux_x86_64/snowsql-1.2.9-linux_x86_64.bash
+          mkdir -p $HOME/snowflake
+          SNOWSQL_DEST=$HOME/snowflake SNOWSQL_LOGIN_SHELL=$HOME/.bash_profile bash snowsql-1.2.9-linux_x86_64.bash
+          echo "$HOME/snowflake" >> $GITHUB_PATH
+
+      - name: Verify SnowSQL Installation
+        run: |
+          echo "PATH: $PATH"
+          ls -R $HOME/snowflake
+          which snowsql
+          snowsql --version
+
+      - name: Run SnowSQL
+        env:
+          SNOWSQL_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWSQL_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWSQL_PWD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: |
+          if [ -z "$SNOWSQL_ACCOUNT" ] || [ -z "$SNOWSQL_USER" ] || [ -z "$SNOWSQL_PWD" ]; then
+            echo "Error: One or more Snowflake credentials are empty"
+            exit 1
+          fi
+          snowsql -o log_level=DEBUG << EOF
+          USE ROLE SYSADMIN;
+          USE DATABASE SNOWGIT;
+          USE SCHEMA SILVER;
+          ALTER GIT REPOSITORY snowgit FETCH;
+          EXECUTE IMMEDIATE FROM @snowgit/branches/"feature/test2"/release_scripts/release_v1.0.sql;
+          EOF
