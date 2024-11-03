@@ -63,5 +63,5 @@ jobs:
           USE DATABASE SNOWGIT;
           USE SCHEMA SILVER;
           ALTER GIT REPOSITORY snowgit FETCH;
-          EXECUTE IMMEDIATE FROM @snowgit/branches/"${BRANCH_NAME}"/release_scripts/"${RELEASE_FILE}";
+          EXECUTE IMMEDIATE FROM @snowgit/branches/"${BRANCH_NAME}"/release_scripts/${RELEASE_FILE};
           EOF
