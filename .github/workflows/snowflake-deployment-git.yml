@@ -51,10 +51,17 @@ jobs:
             echo "Error: One or more Snowflake credentials are empty"
             exit 1
           fi
+          if [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+            BRANCH_NAME=${GITHUB_REF#refs/heads/}
+            RELEASE_FILE="release_v1.0.sql"
+          else
+            BRANCH_NAME=${{ inputs.branch_name }}
+            RELEASE_FILE=${{ inputs.release_file }}
+          fi
           snowsql -o log_level=DEBUG << EOF
           USE ROLE SYSADMIN;
           USE DATABASE SNOWGIT;
           USE SCHEMA SILVER;
           ALTER GIT REPOSITORY snowgit FETCH;
-          EXECUTE IMMEDIATE FROM @snowgit/branches/"${{ inputs.branch_name }}"/release_scripts/"${{ inputs.release_file }}".sql;
+          EXECUTE IMMEDIATE FROM @snowgit/branches/"${BRANCH_NAME}"/release_scripts/"${RELEASE_FILE}";
           EOF
