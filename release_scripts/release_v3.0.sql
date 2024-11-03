@@ -2,5 +2,6 @@
 
 USE DATABASE SNOWGIT;
 USE SCHEMA SILVER;
-execute immediate from @snowgit/branches/"feature/test2"/silver/tables/customer.sql;
-execute immediate from @snowgit/branches/"feature/test2"/silver/functions/last_day_of_month.sql
+execute immediate from @snowgit/branches/"feature/test3"/silver/tables/customer.sql;
+execute immediate from @snowgit/branches/"feature/test3"/silver/oneoff_inserts/insert_customers_v1.0.sql;
+execute immediate from @snowgit/branches/"feature/test3"/silver/functions/last_day_of_month.sql
