@@ -9,4 +9,4 @@ VALUES
     (1007, 'James Anderson', 'james.anderson@email.com'),
     (1008, 'Ava Martinez', 'ava.martinez@email.com'),
     (1009, 'Robert Garcia', 'robert.garcia@email.com'),
-    (1010, 'Isabella Robinson', 'isabella.robinson@email.com');
+    (1010, 'Isabella Robinson', 'isabla.robinson@email.com');
